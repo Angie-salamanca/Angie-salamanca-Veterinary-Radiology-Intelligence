@@ -1,0 +1,19 @@
+# Entorno virtual
+.venv/
+
+# Cache de Python
+__pycache__/
+*.pyc
+
+# Cache de pytest
+.pytest_cache/
+
+# Secretos de Streamlit (¡contraseña de PostgreSQL!)
+.streamlit/secrets.toml
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Datos crudos sensibles (opcional, si no quieres subir el Excel original)
+# data/raw/
