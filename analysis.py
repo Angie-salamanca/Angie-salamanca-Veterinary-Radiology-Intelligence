@@ -10,8 +10,8 @@ from queries import (
 )
 
 
-def get_species_data(password=None, start_year=None, end_year=None):
-    engine = create_database_engine(password)
+def get_species_data(password=None, start_year=None, end_year=None, db_config=None):
+    engine = create_database_engine(password, **(db_config or {}))
 
     species_df = pd.read_sql(
         text(SPECIES_QUERY),
@@ -24,8 +24,8 @@ def get_species_data(password=None, start_year=None, end_year=None):
     return species_df
 
 
-def get_report_by_radiograph_data(password=None, start_year=None, end_year=None):
-    engine = create_database_engine(password)
+def get_report_by_radiograph_data(password=None, start_year=None, end_year=None, db_config=None):
+    engine = create_database_engine(password, **(db_config or {}))
 
     report_df = pd.read_sql(
         text(REPORT_BY_RADIOGRAPH_QUERY),
@@ -38,8 +38,8 @@ def get_report_by_radiograph_data(password=None, start_year=None, end_year=None)
     return report_df
 
 
-def get_cases_by_year(password=None):
-    engine = create_database_engine(password)
+def get_cases_by_year(password=None, db_config=None):
+    engine = create_database_engine(password, **(db_config or {}))
 
     year_df = pd.read_sql(
         CASES_BY_YEAR_QUERY,
@@ -51,8 +51,8 @@ def get_cases_by_year(password=None):
     return year_df
 
 
-def get_data_quality_metrics(password=None):
-    engine = create_database_engine(password)
+def get_data_quality_metrics(password=None, db_config=None):
+    engine = create_database_engine(password, **(db_config or {}))
 
     quality_df = pd.read_sql(
         DATA_QUALITY_QUERY,

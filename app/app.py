@@ -1,3 +1,8 @@
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 import streamlit as st
 
 from analysis import (
@@ -31,10 +36,18 @@ st.write(
 
 password = st.secrets["postgres_password"]
 
+db_config = {
+    "username": st.secrets["postgres_username"],
+    "host": st.secrets["postgres_host"],
+    "port": st.secrets.get("postgres_port", 5432),
+    "database": st.secrets["postgres_database"],
+    "sslmode": st.secrets.get("postgres_sslmode", "require"),
+}
+
 
 # Datos que NO se filtran por año
-year_df = get_cases_by_year(password)
-quality_df = get_data_quality_metrics(password)
+year_df = get_cases_by_year(password, db_config=db_config)
+quality_df = get_data_quality_metrics(password, db_config=db_config)
 
 
 # --- Filtro en la barra lateral ---
@@ -54,9 +67,9 @@ start_year, end_year = st.sidebar.slider(
 
 
 # Datos que SÍ se filtran según el slider
-species_df = get_species_data(password, start_year, end_year)
+species_df = get_species_data(password, start_year, end_year, db_config=db_config)
 
-report_df = get_report_by_radiograph_data(password, start_year, end_year)
+report_df = get_report_by_radiograph_data(password, start_year, end_year, db_config=db_config)
 
 
 # --- KPIs (siempre sobre el dataset completo) ---
